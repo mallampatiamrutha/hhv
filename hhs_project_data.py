@@ -30,12 +30,28 @@ def task_status():
     st.title("Task Status Overview")
     st.write("Distribution of task statuses across the project.")
     
+    # Prepare data for pie chart
     status_data = df["Status"].value_counts().reset_index()
     status_data.columns = ["Status", "Count"]
-    
-    st.pie_chart(status_data.set_index("Status"), use_container_width=True)
+
+    # Create a pie chart using matplotlib
+    fig, ax = plt.subplots()
+    ax.pie(
+        status_data["Count"],
+        labels=status_data["Status"],
+        autopct="%1.1f%%",
+        startangle=90,
+        colors=plt.cm.Paired.colors
+    )
+    ax.axis("equal")  # Equal aspect ratio ensures the pie chart is circular.
+
+    # Embed the pie chart in the Streamlit app
+    st.pyplot(fig)
+
+    # Display detailed data
     st.write("### Task Status Details")
     st.dataframe(status_data)
+
 
 def filter_data():
     st.title("Filter Data and Visualizations")
@@ -85,17 +101,6 @@ def cost_breakdown():
     st.write("### Costs by Task")
     st.bar_chart(cost_task.set_index("Task"), use_container_width=True)
 
-def progress_timeline():
-    st.title("Progress Timeline")
-    st.write("Visualize the project timeline and progress by start and end dates.")
-    
-    df["Start Date"] = pd.to_datetime(df["Start Date"])
-    df["End Date"] = pd.to_datetime(df["End Date"])
-    
-    st.write("### Gantt Chart of Tasks")
-    st.write("This feature requires integration with plotly or Altair for timeline charts.")
-    # Placeholder for Gantt chart
-    # You can use plotly.express.timeline here if required
 
 # Streamlit sidebar navigation
 st.sidebar.title("Navigation")
@@ -115,5 +120,4 @@ elif menu == "Filter Data and Visualizations":
     filter_data()
 elif menu == "Cost Breakdown":
     cost_breakdown()
-elif menu == "Progress Timeline":
-    progress_timeline()
+
