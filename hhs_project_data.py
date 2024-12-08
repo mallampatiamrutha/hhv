@@ -106,7 +106,7 @@ def cost_breakdown():
 st.sidebar.title("Navigation")
 menu = st.sidebar.radio(
     "Navigate to", 
-    ["Overview", "Phase Summary", "Task Status", "Filter Data and Visualizations", "Cost Breakdown", "Progress Timeline"]
+    ["Overview", "Phase Summary", "Task Status", "Filter Data and Visualizations", "Cost Breakdown"]
 )
 
 # Conditional rendering based on selected menu
